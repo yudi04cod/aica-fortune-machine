@@ -15,9 +15,20 @@ FORTUNE = (
 )
 
 
+def validate(fortune: str) -> None:
+    """Check the fortune line before writing it out.
+
+    Rules from the competition kit: the entry must be a single,
+    non-empty line of at most 200 characters.
+    """
+    assert fortune, "fortune must not be empty"
+    assert len(fortune) <= 200, "fortune must be at most 200 characters"
+    assert "\n" not in fortune and "\r" not in fortune, "fortune must be a single line"
+
+
 def main() -> None:
-    assert 1 <= len(FORTUNE) <= 200, "fortune must be 1-200 characters"
-    out_dir = "/output"
+    validate(FORTUNE)
+    out_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8", newline="") as f:
         f.write(FORTUNE)
